@@ -19,7 +19,6 @@
         <table class="table table-bordered">
           <thead>
             <tr>
-              <th>ID</th>
               <th>用户名</th>
               <th>性别</th>
               <th>班级</th>
@@ -30,8 +29,7 @@
           <tbody>
             {% for user in page_obj %}
               <tr>
-                <td scope="row">{{ user.id }}</td>
-                <td>{{ user.name }}</td>
+                <td scope="row">{{ user.name }}</td>
                 <td>{{ user.get_gender_display }}</td>
                 <td>{{ user.banji }}</td>
                 <td>{{ user.create_time|date:"Y-m-d" }}</td>

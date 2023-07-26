@@ -7,7 +7,7 @@
     <meta name="description" content="">
     <meta name="author" content="Mark Otto, Jacob Thornton, and Bootstrap contributors">
     <meta name="generator" content="Hugo 0.101.0">
-    <title>学生登录</title>
+    <title>学生注册</title>
     <!-- Bootstrap core CSS -->
     <link href="{% static 'css/admin/bootstrap.min.css' %}" rel="stylesheet">
 
@@ -39,7 +39,7 @@
 <form class="form-signin" method="post" novalidate>
     {% csrf_token %}
   <img class="mb-4" src="{% static 'img/logo.png' %}" alt="" width="72" height="72">
-  <h1 class="h3 mb-3 font-weight-normal">用户登录</h1>
+  <h1 class="h3 mb-3 font-weight-normal">用户注册</h1>
   
     {% for field in form %}
         <div class="form-group">
@@ -51,8 +51,8 @@
         {% endif %}
         </div>
     {% endfor %}
-    <p>没有账号？<a href="/user/register/">立即注册</a></p>
-  <button class="btn btn-lg btn-primary btn-block" type="submit">登录</button>
+  <button class="btn btn-lg btn-primary btn-block" type="submit">注册</button>
+  <a class="btn btn-lg btn-primary btn-block" href="/user/login/">返回登录页面</a>
   <p class="mt-5 mb-3 text-muted">&copy; Created by Zhe.</p>
 </form>
 

@@ -81,7 +81,7 @@ class UserModelForm(BootStrapModelForm):
         if password != self.md5(confirm_pwd):
             raise ValidationError("密码不一致")
         return confirm_pwd
-    
+
     def clean_name(self):
         name = self.cleaned_data.get("name")
         if models.User.objects.filter(name=name).exists():
@@ -93,6 +93,7 @@ class UserEditModelForm(BootStrapModelForm):
     class Meta:
         model = models.User
         fields = ["name", "create_time", "gender", "banji"]
+
     def clean_name(self):
         name = self.cleaned_data.get("name")
         if models.User.objects.filter(name=name).exists():
@@ -140,3 +141,5 @@ class CheckInModelForm(BootStrapModelForm):
     class Meta:
         model = models.CheckIn
         fields = ["course"]
+
+

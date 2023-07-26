@@ -52,7 +52,6 @@ def download(request):
 def user_login(request):
     if request.method == "GET":
         form = UserLoginModelForm()
-        print(form)
         return render(request, "user/user_login.html", {"form": form})
     form = UserLoginModelForm(data=request.POST)
     if form.is_valid():
@@ -67,6 +66,19 @@ def user_login(request):
         return redirect("/user/index/")
     else:
         return render(request, "user/user_login.html", {"form": form})
+
+
+def user_register(request):
+    print("*"*20)
+    if request.method == "GET":
+        form = UserModelForm()
+        return render(request, "user/user_register.html", {"form": form})
+    form = UserModelForm(data=request.POST)
+    if form.is_valid():
+        form.save()
+        return redirect("/user/login/")
+    else:
+        return render(request, "user/user_register.html", {"form": form})
 
 
 def user_index(request):

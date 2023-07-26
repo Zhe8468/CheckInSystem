@@ -16,6 +16,7 @@ urlpatterns = [
     path('user/index/',views.user_index),
     path('user/checkin/',views.user_checkin),
     path('user/logout/',views.user_logout),
+    path('user/register/',views.user_register),
     # 课程
     path('admin/course/',views.course_list),
     path('admin/course/add/',views.course_add),
