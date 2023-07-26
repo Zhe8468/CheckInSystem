@@ -1,0 +1,75 @@
+{% extends 'admin/layout.html' %}
+
+{% block content %}
+<div>
+    <div class="container">
+      <div>
+        <a href="/admin/user/add/" class="btn btn-success" style="margin-bottom: 10px;"><span class="glyphicon glyphicon-plus" aria-hidden="true"></span> 新建学生</a>
+        <form class="input-group" method="get" style="float: right;width: 300px;">
+          <input type="text" name="q" class="form-control" placeholder="输入用户名以搜索..." value="{{ q }}" />
+          <span class="input-group-btn"><button class="btn btn-default" type="submit"><span class="glyphicon glyphicon-search" aria-hidden="true"></span></button></span>
+        </form>
+      </div>
+      <div class="panel panel-default">
+        <!-- Default panel contents -->
+        <div class="panel-heading">
+          <span class="glyphicon glyphicon-th-list" aria-hidden="true"></span> 学生列表
+        </div>
+
+        <table class="table table-bordered">
+          <thead>
+            <tr>
+              <th>ID</th>
+              <th>用户名</th>
+              <th>性别</th>
+              <th>班级</th>
+              <th>入社时间</th>
+              <th>操作</th>
+            </tr>
+          </thead>
+          <tbody>
+            {% for user in page_obj %}
+              <tr>
+                <td scope="row">{{ user.id }}</td>
+                <td>{{ user.name }}</td>
+                <td>{{ user.get_gender_display }}</td>
+                <td>{{ user.banji }}</td>
+                <td>{{ user.create_time|date:"Y-m-d" }}</td>
+                <td>
+                  <a href="/admin/user/edit/{{ user.id }}" class="btn btn-primary btn-xs">编辑</a>
+                  <a href="/admin/user/delete/{{ user.id }}" class="btn btn-danger btn-xs">删除</a>
+                  <a href="/admin/checkin/?q={{ user.name }}" class="btn btn-warning btn-xs">签到记录</a>
+                  <a href="/admin/user/reset/{{ user.id }}/" class="btn btn-success btn-xs">重置密码</a>
+                </td>
+              </tr>
+            {% endfor %}
+          </tbody>
+        </table>
+      </div>
+      <nav aria-label="Page navigation" style="float: right;">
+        <ul class="pagination">
+          {% if page_obj.has_previous %}
+          <li>
+            <a href="?page={{ page_obj.previous_page_number }}" aria-label="Previous">
+              <span aria-hidden="true">&laquo;</span>
+            </a>
+          </li>
+          {% endif %}
+          <li><a href="?page=1">首页</a></li>
+          <li class="active"><a href="#">第 {{ page_obj.number }} 页/共 {{ page_obj.paginator.num_pages }} 页</a></li>
+          <li><a href="?page={{ page_obj.paginator.num_pages }}">尾页</a></li>
+          {% if page_obj.has_next %}
+          <li>
+            <a href="?page={{ page_obj.next_page_number }}" aria-label="Next">
+              <span aria-hidden="true">&raquo;</span>
+            </a>
+          </li>
+          {% endif %}
+          
+        </ul>
+      </nav>
+    </div>
+    
+  </div>
+{% endblock content %}
+

@@ -1,0 +1,110 @@
+{% extends 'user/layout.html' %}
+
+{% block content %}
+  <div>
+    <div class="container">
+      <h2>个人信息</h2>
+      <hr />
+      <div class="panel panel-default">
+        <div class="panel-heading">
+          <span class="glyphicon glyphicon-th-list" aria-hidden="true"></span> {{ user.name }}的个人信息
+        </div>
+        <table class="table table-bordered">
+          <thead>
+            <tr>
+              <th>ID</th>
+              <th>姓名</th>
+              <th>性别</th>
+              <th>班级</th>
+              <th>入社时间</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td scope="row">{{ user.id }}</td>
+              <td>{{ user.name }}</td>
+              <td>{{ user.get_gender_display }}</td>
+              <td>{{ user.banji }}</td>
+              <td>{{ user.create_time|date:'Y-m-d' }}</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+      <h2>今日签到</h2>
+      <a href="/user/checkin/" class="btn btn-success"><span class="glyphicon glyphicon-plus" aria-hidden="true"></span> 签到</a>
+
+      <hr />
+      {% if request.GET.error %}
+        <div class="alert alert-danger" role="alert">{{ request.GET.error }}</div>
+      {% endif %}
+      {% if request.GET.success %}
+        <div class="alert alert-success" role="alert">{{ request.GET.success }}</div>
+      {% endif %}
+      <div class="panel panel-default">
+        <div class="panel-heading">
+          <span class="glyphicon glyphicon-th-list" aria-hidden="true"></span> 今日签到
+        </div>
+        <table class="table table-bordered">
+          <thead>
+            <tr>
+              <th>课程名称</th>
+              <th>学生姓名</th>
+              <th>学生班级</th>
+              <th>签到时间</th>
+              <th>签到状态</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              {% if checkin %}
+                <td scope="row">《{{ checkin.course.name }}》</td>
+                <td>{{ checkin.user.name }}</td>
+                <td>{{ checkin.user.banji }}</td>
+                <td>{{ checkin.time|date:'Y-m-d' }}</td>
+                {% if checkin.status == 1 %}
+                  <td style="color: green;">{{ checkin.get_status_display }}</td>
+                {% else %}
+                  <td style="color: red;">{{ checkin.get_status_display }}</td>
+                {% endif %}
+              {% endif %}
+            </tr>
+          </tbody>
+        </table>
+      </div>
+
+      <h1>{{ user.name }}的签到记录</h1>
+      <hr />
+      <div class="panel panel-default">
+        <div class="panel-heading">
+          <span class="glyphicon glyphicon-th-list" aria-hidden="true"></span> 签到记录
+        </div>
+        <table class="table table-bordered">
+          <thead>
+            <tr>
+              <th>课程名称</th>
+              <th>学生姓名</th>
+              <th>学生班级</th>
+              <th>签到时间</th>
+              <th>签到状态</th>
+            </tr>
+          </thead>
+          <tbody>
+            {% for checkin in checkins %}
+              <tr>
+                <td scope="row">《{{ checkin.course.name }}》</td>
+                <td>{{ checkin.user.name }}</td>
+                <td>{{ checkin.user.banji }}</td>
+                <td>{{ checkin.time|date:'Y-m-d' }}</td>
+                {% if checkin.status == 1 %}
+                  <td style="color: green;">{{ checkin.get_status_display }}</td>
+                {% else %}
+                  <td style="color: red;">{{ checkin.get_status_display }}</td>
+                {% endif %}
+              </tr>
+            {% endfor %}
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+{% endblock %}

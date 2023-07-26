@@ -1,0 +1,41 @@
+{% extends 'admin/layout.html' %}
+
+{% block content %}
+<div>
+    <div class="container">
+      <div>
+        <a href="/admin/course/add/" class="btn btn-success" style="margin-bottom: 10px;"><span class="glyphicon glyphicon-plus" aria-hidden="true"></span> 新建课程</a>
+      </div>
+      <div class="panel panel-default">
+        <!-- Default panel contents -->
+        <div class="panel-heading">
+          <span class="glyphicon glyphicon-th-list" aria-hidden="true"></span> 课程列表
+        </div>
+
+        <table class="table table-bordered">
+          <thead>
+            <tr>
+              <th>课程名称</th>
+              <th>讲师</th>
+              <th>操作</th>
+            </tr>
+          </thead>
+          <tbody>
+            {% for course in courses %}
+              <tr>
+                <td scope="row">《{{ course.name }}》</td>
+                <td>{{ course.teacher_name }}</td>
+                <td>
+                    <a href="/admin/course/edit/{{ course.id }}" class="btn btn-primary btn-xs">编辑</a>
+                  <a href="/admin/course/delete/{{ course.id }}" class="btn btn-danger btn-xs">删除</a>
+                </td>
+              </tr>
+            {% endfor %}
+          </tbody>
+        </table>
+      </div>
+    </div>
+    
+  </div>
+{% endblock content %}
+

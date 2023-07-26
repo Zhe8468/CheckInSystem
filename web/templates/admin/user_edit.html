@@ -1,0 +1,24 @@
+{% extends 'admin/layout.html' %}
+
+{% block content %}
+  <div class="container">
+    <div class="panel panel-default">
+      <div class="panel-heading">
+        <span class="glyphicon glyphicon-th-list" aria-hidden="true"></span> 编辑用户
+      </div>
+      <form style="padding: 10px;" method="post" novalidate>
+        {% csrf_token %}
+        {% for field in form %}
+          <div class="form-group">
+            <label>{{ field.label }}</label>
+            {{ field }}
+            {% if field.errors %}
+              <div class="alert alert-danger" style="margin-top: 5px;" role="alert">{{ field.errors.0 }}</div>
+            {% endif %}
+          </div>
+        {% endfor %}
+        <button type="submit" class="btn btn-success">修改</button>
+      </form>
+    </div>
+  </div>
+{% endblock %}

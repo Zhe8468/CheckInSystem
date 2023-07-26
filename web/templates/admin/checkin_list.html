@@ -1,0 +1,89 @@
+{% extends 'admin/layout.html' %}
+
+{% block content %}
+  <div>
+    <div class="container">
+      <div>
+        <a href="/admin/checkin/add/" class="btn btn-success" style="margin-bottom: 10px;margin-right: 20px;"><span class="glyphicon glyphicon-plus" aria-hidden="true"></span> 发布签到</a>
+        <form class="input-group" method="get" style="float: right;width: 300px;">
+          <input type="text" name="q" class="form-control" placeholder="输入用户名以搜索..." value="{{ q }}" />
+          <span class="input-group-btn"><button class="btn btn-default" type="submit"><span class="glyphicon glyphicon-search" aria-hidden="true"></span></button></span>
+        </form>
+      </div>
+      {% if user %}
+        <h2>{{ user.name }}的签到记录</h2>
+        <p>姓名：{{ user.name }}</p>
+        <p>班级：{{ user.banji }}</p>
+      {% else %}
+        <h2>签到记录</h2>
+      {% endif %}
+
+      <hr />
+      {% if request.GET.error %}
+        <div class="alert alert-danger" role="alert">{{ request.GET.error }}</div>
+      {% endif %}
+      <div class="panel panel-default">
+        <!-- Default panel contents -->
+        <div class="panel-heading">
+          <span class="glyphicon glyphicon-th-list" aria-hidden="true"></span> 签到记录
+        </div>
+        <table class="table table-bordered">
+          <thead>
+            <tr>
+              <th>课程名称</th>
+              <th>讲师</th>
+              <th>学生姓名</th>
+              <th>学生班级</th>
+              <th>签到时间</th>
+              <th>签到状态</th>
+            </tr>
+          </thead>
+          <tbody>
+            {% for checkin in page_obj %}
+              <tr>
+                <td scope="row">《{{ checkin.course.name }}》</td>
+                <td scope="row">{{ checkin.course.teacher_name }}</td>
+                <td>{{ checkin.user.name }}</td>
+                <td>{{ checkin.user.banji }}</td>
+                <td>{{ checkin.time|date:'Y-m-d' }}</td>
+                {% if checkin.status == 1 %}
+                  <td style="color: green;">{{ checkin.get_status_display }}</td>
+                {% else %}
+                  <td style="color: red;">{{ checkin.get_status_display }}</td>
+                {% endif %}
+              </tr>
+            {% endfor %}
+          </tbody>
+        </table>
+      </div>
+
+      <nav aria-label="Page navigation" style="float: right;">
+        <ul class="pagination">
+          {% if page_obj.has_previous %}
+            <li>
+              <a href="?page={{ page_obj.previous_page_number }}" aria-label="Previous"><span aria-hidden="true">&laquo;</span></a>
+            </li>
+          {% endif %}
+          <li>
+            <a href="?page=1">首页</a>
+          </li>
+          <li class="active">
+            <a href="#">第 {{ page_obj.number }} 页/共 {{ page_obj.paginator.num_pages }} 页</a>
+          </li>
+          <li>
+            <a href="?page={{ page_obj.paginator.num_pages }}">尾页</a>
+          </li>
+          {% if page_obj.has_next %}
+            <li>
+              <a href="?page={{ page_obj.next_page_number }}" aria-label="Next"><span aria-hidden="true">&raquo;</span></a>
+            </li>
+          {% endif %}
+        </ul>
+      </nav>
+      <h2 style="margin-top: 100px;">下载签到记录</h2>
+      <hr />
+      <p><a href="/admin/checkin/download/?q=all" class="btn btn-success" style="margin-bottom: 10px;"><span class="glyphicon glyphicon-download" aria-hidden="true"></span> 下载全部签到记录</a></p>
+      <p><a href="/admin/checkin/download/?q=today" class="btn btn-success" style="margin-bottom: 10px;"><span class="glyphicon glyphicon-download" aria-hidden="true"></span> 下载今日签到记录</a></p>
+    </div>
+  </div>
+{% endblock %}
